@@ -60,24 +60,38 @@ function getrichfeatures(tracklist, access_token) {
 
 //make a playlist
 function makePlaylist(tracklist, access_token, playlist_name, uid) {
+  var newName = "Partify: " + playlist_name;
+  var endPt = "https://api.spotify.com/v1/users/" + uid + "/playlists";
   var playlistData = JSON.stringify({
   "description": "Your partified playlist of " + playlist_name,
-  "name": "Partify: " + playlist_name
+  "name": newName
 })
   //first create the playlist
   $.ajax({
     type: "post",
     data: playlistData,
     dataType: "json",
-    url: "https://api.spotify.com/v1/users/" + uid + "/playlists",
+    url: endPt,
     headers: {
       'Authorization': 'Bearer ' + access_token
     },
   }).done(function(data) {
     console.log("Made Playlist" + data);
+    var playlistId = data.id;
+    // now populate it with the right tracks
+    $.ajax({
+      type: "post",
+      data: tracklist,
+      dataType: "json",
+      url: endPt + "/" + playlistId + "/tracks",
+      headers: {
+        'Authorization': 'Bearer ' + access_token
+      },
+    }).done(function(data) {
+      console.log("Populated playlist" + data);
+    });
   });
 
-  //now populate the playlist
 }
 
 // Sorting by increasing danceability.
