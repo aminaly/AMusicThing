@@ -27,7 +27,7 @@ function populatelist(jsonlist, access_token) {
         var userId = document.getElementById("userid").innerText;
 
         var features = getrichfeatures(tracklist, access_token);
-        var sortedfeats = mergesort(features);
+        // var sortedfeats = mergesort(features);
         //TODO add a "new playlist" tracklist function call
         makePlaylist(tracklist, access_token, playlistName, userId);
       })
@@ -60,11 +60,10 @@ function getrichfeatures(tracklist, access_token) {
 
 //make a playlist
 function makePlaylist(tracklist, access_token, playlist_name, uid) {
-  console.log(uid)
-  var playlistData = {
+  var playlistData = JSON.stringify({
   "description": "Your partified playlist of " + playlist_name,
   "name": "Partify: " + playlist_name
-}
+})
   //first create the playlist
   $.ajax({
     type: "post",
