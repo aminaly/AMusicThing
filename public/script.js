@@ -63,3 +63,13 @@ function makePlaylist(tracklist, access_token) {
     console.log(data);
   });
 }
+
+function mergesort(tracksAndFeatures) {
+  tracks = tracksAndFeatures['audio_features'];
+  if (tracks.length == 0 || tracks.length == 1) {
+    return tracks;
+  } else {
+    middle = tracks.length / 2;
+    left = mergesort()
+  }
+}
