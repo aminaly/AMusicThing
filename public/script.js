@@ -25,6 +25,7 @@ function populatelist(jsonlist, access_token) {
         var tracklist = gettracklists(data);
         var playlistName = data.name;
         var features = getrichfeatures(tracklist, access_token);
+        var sortedfeats = mergesort(features);
         //TODO add a "new playlist" tracklist function call
         makePlaylist(tracklist, access_token, playlistName);
       })
@@ -80,12 +81,33 @@ function makePlaylist(tracklist, access_token, playlist_name) {
   //now populate the playlist
 }
 
+// Sorting by increasing danceability.
+// TODO: Change the sorting criteria
+function merge(l, r) {
+  var result = [];
+  var idxl = 0;
+  var idxr = 0;
+
+  while (idxl < l.length && idxr < r.length) {
+    if (l[idxl]['danceability'] < r[idxr]['danceability']) {
+      result.push(l[idxl]);
+      idxl++;
+    } else {
+      result.push(r[idxr]);
+      idxr++;
+    }
+  }
+}
+
+// Sort the playlist via mergesort
 function mergesort(tracksAndFeatures) {
   tracks = tracksAndFeatures['audio_features'];
   if (tracks.length == 0 || tracks.length == 1) {
     return tracks;
   } else {
-    middle = tracks.length / 2;
-    left = mergesort()
+    var middle = Math.floor(tracks.length / 2);
+    var left = mergesort(ls.slice(0,middle));
+    var right = mergesort(ls.slice(middle));
+    return merge(left, right);
   }
 }
