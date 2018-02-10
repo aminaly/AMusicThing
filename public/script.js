@@ -22,7 +22,11 @@ function populatelist(jsonlist, access_token) {
         },
       }).done(function(data) {
         console.log(data);
-        getrichfeatures(gettracklists(data), access_token);
+        var tracklist = gettracklists(data);
+        var playlistName = data.name;
+        var features = getrichfeatures(tracklist, access_token);
+        //TODO add a "new playlist" tracklist function call
+        makePlaylist(tracklist, playlistName);
       })
     });
     ls.appendChild(button);
@@ -53,15 +57,27 @@ function getrichfeatures(tracklist, access_token) {
 }
 
 //make a playlist
-function makePlaylist(tracklist, access_token) {
+function makePlaylist(tracklist, access_token, playlist_name) {
+
+  var playlistData = {
+  "description": "Your partified playlist of " + playlist_name,
+  "public": true,
+  "name": "Partify: " + playlist_name
+}
+  //first create the playlist
   $.ajax({
-    url: "https://api.spotify.com/v1/audio-features?ids=" + tracklist.toString(),
+    type: "post",
+    data: playlistData,
+    dataType: "json",
+    url: "https://api.spotify.com/v1/me/playlists",
     headers: {
       'Authorization': 'Bearer ' + access_token
     },
   }).done(function(data) {
-    console.log(data);
+    console.log("Made Playlist" + data);
   });
+
+  //now populate the playlist
 }
 
 function mergesort(tracksAndFeatures) {
