@@ -24,14 +24,15 @@ function populatelist(jsonlist, access_token) {
         console.log(data);
         var tracklist = gettracklists(data);
         var playlistName = data.name;
+        var userId = document.getElementById("userid").innerText;
+
         var features = getrichfeatures(tracklist, access_token);
         var sortedfeats = mergesort(features);
         //TODO add a "new playlist" tracklist function call
-        makePlaylist(tracklist, access_token, playlistName);
+        makePlaylist(tracklist, access_token, playlistName, userId);
       })
     });
     ls.appendChild(button);
-
   }
 }
 
@@ -58,11 +59,10 @@ function getrichfeatures(tracklist, access_token) {
 }
 
 //make a playlist
-function makePlaylist(tracklist, access_token, playlist_name) {
-
+function makePlaylist(tracklist, access_token, playlist_name, uid) {
+  console.log(uid)
   var playlistData = {
   "description": "Your partified playlist of " + playlist_name,
-  "public": true,
   "name": "Partify: " + playlist_name
 }
   //first create the playlist
@@ -70,7 +70,7 @@ function makePlaylist(tracklist, access_token, playlist_name) {
     type: "post",
     data: playlistData,
     dataType: "json",
-    url: "https://api.spotify.com/v1/users/amina626/playlists", // TODO: CHANGE THIS TO BE GENERALIZES
+    url: "https://api.spotify.com/v1/users/" + uid + "/playlists",
     headers: {
       'Authorization': 'Bearer ' + access_token
     },
