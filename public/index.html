@@ -55,7 +55,7 @@
         <div class="media-body">
           <dl class="dl-horizontal">
             <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
-            <dt>Id</dt><dd>{{id}}</dd>
+            <dt>Id</dt><dd><div id = "userid">{{id}}</div></dd>
             <dt>Email</dt><dd>{{email}}</dd>
             <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
             <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
@@ -175,15 +175,6 @@
             }).done(function(data) {
               console.log(data);
               populatelist(data, access_token);
-              $.ajax({
-                url: 'https://api.spotify.com/v1/me/playlists/3Rt1xxZseEgsapNgv2GN2p/tracks',
-                headers: {
-                  'Authorization': 'Bearer ' + access_token
-                }
-              }).done(function(data) {
-                console.log(data);
-
-              })
               // access_token = data.access_token;
               // oauthPlaceholder.innerHTML = oauthTemplate({
               //   access_token: access_token,
