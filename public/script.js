@@ -14,24 +14,25 @@ function populatelist(jsonlist, access_token) {
     var button = document.createElement("button");
     // button.name = result.href;
     button.innerHTML = "submit";
-    button.addEventListener("click", function() {
-      $.ajax({
-        url: result.href,
-        headers: {
-          'Authorization': 'Bearer ' + access_token
-        },
-      }).done(function(data) {
-        console.log(data);
-        var tracklist = gettracklists(data);
-        var playlistName = data.name;
-        var userId = document.getElementById("userid").innerText;
+    button.addEventListener("click", function(playlisturl) {
+      return function() {
+        $.ajax({
+          url: playlisturl,
+          headers: {
+            'Authorization': 'Bearer ' + access_token
+          },
+        }).done(function(data) {
+          console.log(data);
+          var tracklist = gettracklists(data);
+          var playlistName = data.name;
+          var userId = document.getElementById("userid").innerText;
 
-        var features = getrichfeatures(tracklist, access_token);
-        var sortedfeats = mergesort(features);
-        //TODO add a "new playlist" tracklist function call
-        makePlaylist(tracklist, access_token, playlistName, userId);
-      })
-    });
+          getrichfeatures(tracklist, access_token);
+          // TODO: add a "new playlist" tracklist function call
+          makePlaylist(tracklist, access_token, playlistName, userId);
+        })
+      }
+    }(result.href));
     ls.appendChild(button);
   }
 }
@@ -54,7 +55,8 @@ function getrichfeatures(tracklist, access_token) {
       'Authorization': 'Bearer ' + access_token
     },
   }).done(function(data) {
-    console.log(data);
+    console.log(data.audio_features);
+    console.log(mergesort(data.audio_features));
   });
 }
 
@@ -97,17 +99,18 @@ function merge(l, r) {
       idxr++;
     }
   }
+
+  return result.concat(l.slice(idxl)).concat(r.slice(idxr))
 }
 
 // Sort the playlist via mergesort
-function mergesort(tracksAndFeatures) {
-  tracks = tracksAndFeatures['audio_features'];
+function mergesort(tracks) {
   if (tracks.length == 0 || tracks.length == 1) {
     return tracks;
   } else {
     var middle = Math.floor(tracks.length / 2);
-    var left = mergesort(ls.slice(0,middle));
-    var right = mergesort(ls.slice(middle));
+    var left = mergesort(tracks.slice(0,middle));
+    var right = mergesort(tracks.slice(middle));
     return merge(left, right);
   }
 }
