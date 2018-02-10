@@ -26,7 +26,7 @@ function populatelist(jsonlist, access_token) {
         var playlistName = data.name;
         var features = getrichfeatures(tracklist, access_token);
         //TODO add a "new playlist" tracklist function call
-        makePlaylist(tracklist, playlistName);
+        makePlaylist(tracklist, access_token, playlistName);
       })
     });
     ls.appendChild(button);
@@ -69,7 +69,7 @@ function makePlaylist(tracklist, access_token, playlist_name) {
     type: "post",
     data: playlistData,
     dataType: "json",
-    url: "https://api.spotify.com/v1/me/playlists",
+    url: "https://api.spotify.com/v1/users/amina626/playlists", // TODO: CHANGE THIS TO BE GENERALIZES
     headers: {
       'Authorization': 'Bearer ' + access_token
     },
