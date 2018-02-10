@@ -20,16 +20,50 @@
  crossorigin="anonymous"></script>
 
     <script>
-    function populatelist(jsonlist) {
+    function populatelist(jsonlist, access_token) {
       var ls = document.getElementById("result-list");
       ls.innerHTML = "";
       var jl = jsonlist;
-      for (idx = 0; idx < jsonlist.tracks.items.length; idx++) {
-        result = jsonlist.tracks.items[idx];
+      for (idx = 0; idx < jsonlist.items.length; idx++) {
+        result = jsonlist.items[idx];
         var myh1 = document.createElement("h1");
-        myh1.innerHTML = result.name + " - " + result.artists[0].name;
+        myh1.innerHTML = result.name + " - " + result.owner.display_name;
         ls.appendChild(myh1);
+        var button = document.createElement("button");
+        // button.name = result.href;
+        button.innerHTML = "submit";
+        button.addEventListener("click", function() {
+          $.ajax({
+            url: result.href,
+            headers: {
+              'Authorization': 'Bearer ' + access_token
+            },
+          }).done(function(data) {
+            console.log(data);
+            getrichfeatures(gettracklists(data), access_token);
+          })
+        });
+        ls.appendChild(button);
+
       }
+    }
+    function gettracklists(data) {
+      ls = [];
+      for (idx = 0; idx < data.tracks.items.length; idx++) {
+        result = data.tracks.items[idx];
+        ls.push(result.track.id);
+      }
+      return ls;
+    }
+    function getrichfeatures(tracklist, access_token) {
+      $.ajax({
+        url: "https://api.spotify.com/v1/audio-features?ids=" + tracklist.toString(),
+        headers: {
+          'Authorization': 'Bearer ' + access_token
+        },
+      }).done(function(data) {
+        console.log(data);
+      });
     }
     </script>
   </head>
@@ -162,16 +196,42 @@
               });
             });
           }, false);
+          // document.getElementById('search-tracks').addEventListener('click', function() {
+          //   var q = document.getElementById('q');
+          //   $.ajax({
+          //     url: 'https://api.spotify.com/v1/search?q=' + q.value +'&type=track',
+          //     headers: {
+          //       'Authorization': 'Bearer ' + access_token
+          //     },
+          //   }).done(function(data) {
+          //     console.log(data);
+          //     populatelist(data);
+          //     // access_token = data.access_token;
+          //     // oauthPlaceholder.innerHTML = oauthTemplate({
+          //     //   access_token: access_token,
+          //     //   refresh_token: refresh_token
+          //     // });
+          //   });
+          // }, false);
           document.getElementById('search-tracks').addEventListener('click', function() {
             var q = document.getElementById('q');
             $.ajax({
-              url: 'https://api.spotify.com/v1/search?q=' + q.value +'&type=track',
+              url: 'https://api.spotify.com/v1/me/playlists',
               headers: {
                 'Authorization': 'Bearer ' + access_token
               },
             }).done(function(data) {
               console.log(data);
-              populatelist(data);
+              populatelist(data, access_token);
+              $.ajax({
+                url: 'https://api.spotify.com/v1/me/playlists/3Rt1xxZseEgsapNgv2GN2p/tracks',
+                headers: {
+                  'Authorization': 'Bearer ' + access_token
+                }
+              }).done(function(data) {
+                console.log(data);
+
+              })
               // access_token = data.access_token;
               // oauthPlaceholder.innerHTML = oauthTemplate({
               //   access_token: access_token,
