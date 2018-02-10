@@ -14,60 +14,12 @@
         width: 500px;
       }
     </style>
-    <script
- src="http://code.jquery.com/jquery-3.3.1.min.js"
- integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
- crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+     crossorigin="anonymous"></script>
 
-    <script>
-    function populatelist(jsonlist, access_token) {
-      var ls = document.getElementById("result-list");
-      ls.innerHTML = "";
-      var jl = jsonlist;
-      for (idx = 0; idx < jsonlist.items.length; idx++) {
-        result = jsonlist.items[idx];
-        var myh1 = document.createElement("h1");
-        myh1.innerHTML = result.name + " - " + result.owner.display_name;
-        ls.appendChild(myh1);
-        var button = document.createElement("button");
-        // button.name = result.href;
-        button.innerHTML = "submit";
-        button.addEventListener("click", function() {
-          $.ajax({
-            url: result.href,
-            headers: {
-              'Authorization': 'Bearer ' + access_token
-            },
-          }).done(function(data) {
-            console.log(data);
-            getrichfeatures(gettracklists(data), access_token);
-          })
-        });
-        ls.appendChild(button);
-
-      }
-    }
-    function gettracklists(data) {
-      ls = [];
-      for (idx = 0; idx < data.tracks.items.length; idx++) {
-        result = data.tracks.items[idx];
-        ls.push(result.track.id);
-      }
-      return ls;
-    }
-    function getrichfeatures(tracklist, access_token) {
-      $.ajax({
-        url: "https://api.spotify.com/v1/audio-features?ids=" + tracklist.toString(),
-        headers: {
-          'Authorization': 'Bearer ' + access_token
-        },
-      }).done(function(data) {
-        console.log(data);
-      });
-    }
-    </script>
+    <script type="text/javascript" src="./script.js"></script>
   </head>
-
   <body>
     <div class="container">
       <div id="login">
@@ -79,7 +31,8 @@
         </div>
         <div id="oauth">
         </div>
-        <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
+        <button class="btn btn-default"
+        id="obtain-new-token">Obtain new token using the refresh token</button>
         <div>
           <!-- <form name="myform">
              <input name="type" value="track"> -->
@@ -125,7 +78,6 @@
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script>
       (function() {
-
         /**
          * Obtains parameters from the hash of the URL
          * @return Object
