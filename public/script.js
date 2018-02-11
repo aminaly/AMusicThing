@@ -53,9 +53,16 @@ function getrichfeatures(tracklist, access_token, playlistName, userId) {
     },
   }).done(function(data) {
     console.log(data.audio_features);
-    var sortedtracks = mergesort(data.audio_features);
-    console.log(sortedtracks);
-    var trackuris = getTrackUris(sortedtracks);
+    var sortedTracks = mergesort(data.audio_features);
+    console.log("SORTED BY TEMPO:");
+    console.log(sortedTracks);
+    var updatedSorting = danceabilityCheck(sortedTracks);
+    console.log("TUNED BY DANCEABILITY:");
+    console.log(updatedSorting);
+    var energySorting = danceabilityCheck(updatedSorting);
+    console.log("TUNED BY ENERGY:");
+    console.log(energySorting);
+    var trackuris = getTrackUris(energySorting);
     console.log(trackuris);
     makePlaylist(trackuris, access_token, playlistName, userId);
   });
@@ -113,7 +120,7 @@ function merge(l, r) {
   var idxr = 0;
 
   while (idxl < l.length && idxr < r.length) {
-    if (l[idxl]['danceability'] < r[idxr]['danceability']) {
+    if (l[idxl]['tempo'] > r[idxr]['tempo']) {
       result.push(l[idxl]);
       idxl++;
     } else {
@@ -135,4 +142,29 @@ function mergesort(tracks) {
     var right = mergesort(tracks.slice(middle));
     return merge(left, right);
   }
+}
+
+function danceabilityCheck(tracks) {
+  for (idx = 1; idx < tracks.length; idx++) {
+    var prevTrack = tracks[idx-1];
+    var currentTrack = tracks[idx];
+    if ((prevTrack['tempo'] - currentTrack['tempo'] <= 5) &&
+    (prevTrack['danceability'] < currentTrack ['danceability'])) {
+      tracks[idx-1] = currentTrack;
+      tracks[idx] = prevTrack;
+    }
+  }
+  return tracks
+}
+
+function energyCheck(tracks) {
+  for (idx = 1; idx < tracks.length; idx++) {
+    var prevTrack = tracks[idx-1];
+    var currentTrack = tracks[idx];
+    if ((currentTrack['tempo'] - prevTrack['tempo'] >= 0.2)) {
+      tracks[idx-1] = currentTrack;
+      tracks[idx] = prevTrack;
+    }
+  }
+  return tracks
 }
