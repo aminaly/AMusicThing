@@ -28,7 +28,7 @@ html, body, .container, .row {
 }
 
 #spotify-btn,
-#submit-playlist {
+.submit-playlist {
   border-radius: 25px;
   font-size: 20px;
   padding-left: 20px;
@@ -37,7 +37,24 @@ html, body, .container, .row {
   border-color: #1DB954;
 }
 
-#submit-playlist {
+.submit-playlist {
   border-radius: 25px;
-  font-size: 15px;
+  font-size: 25px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.playlist-name {
+  font-size: 25px;
+}
+
+#result-list {
+  overflow: auto;
+  height: 500px;
+  float: right;
+  white-space: nowrap;
+}
+
+#in-line-list {
+  display: block;
 }

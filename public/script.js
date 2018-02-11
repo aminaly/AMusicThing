@@ -5,17 +5,20 @@
 function populatelist(jsonlist, access_token) {
   var ls = document.getElementById("result-list");
   ls.innerHTML = "";
+  ls.className = "list-group";
   var jl = jsonlist;
   for (idx = 0; idx < jsonlist.items.length; idx++) {
+    var ils = document.createElement("div")
+    ils.className = "in-line-list"
     result = jsonlist.items[idx];
-    var myh1 = document.createElement("body");
+    var myh1 = document.createElement("span");
+    myh1.className = "playlist-name";
     myh1.innerHTML = result.name + " - " + result.owner.display_name;
-    ls.appendChild(myh1);
+    ils.appendChild(myh1);
     var button = document.createElement("button");
-    button.id = "submit-playlist";
-    button.className = "btn";
-    // button.name = result.href;
+    button.className = "submit-playlist";
     button.innerHTML = "Partify!";
+
     button.addEventListener("click", function(playlisturl) {
       return function() {
         $.ajax({
@@ -32,7 +35,8 @@ function populatelist(jsonlist, access_token) {
         })
       }
     }(result.href));
-    ls.appendChild(button);
+    ils.appendChild(button);
+    ls.appendChild(ils)
   }
 }
 
