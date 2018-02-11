@@ -52,13 +52,18 @@ html, body, .container, .row {
   font-size: 25px;
 }
 
+.media-body {
+  margin-top: 25px;
+}
+
 #result-list {
   overflow: auto;
   height: 500px;
+  width: 700px;
   float: right;
   white-space: nowrap;
 }
 
-#in-line-list {
-  display: block;
+.in-line-list {
+  float: right;
 }
