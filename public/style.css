@@ -12,3 +12,7 @@ html, body, .container, .row {
   text-align: center;
   vertical-align: middle;
 }
+
+#submit-playlist {
+  background-color: #1DB954;
+}
