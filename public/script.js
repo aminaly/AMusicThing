@@ -59,7 +59,7 @@ function getrichfeatures(tracklist, access_token, playlistName, userId) {
     var updatedSorting = danceabilityCheck(sortedTracks);
     console.log("TUNED BY DANCEABILITY:");
     console.log(updatedSorting);
-    var energySorting = danceabilityCheck(updatedSorting);
+    var energySorting = energyCheck(updatedSorting);
     console.log("TUNED BY ENERGY:");
     console.log(energySorting);
     var trackuris = getTrackUris(energySorting);
@@ -161,7 +161,7 @@ function energyCheck(tracks) {
   for (idx = 1; idx < tracks.length; idx++) {
     var prevTrack = tracks[idx-1];
     var currentTrack = tracks[idx];
-    if ((currentTrack['tempo'] - prevTrack['tempo'] >= 0.2)) {
+    if ((currentTrack['energy'] - prevTrack['energy'] >= 0.2)) {
       tracks[idx-1] = currentTrack;
       tracks[idx] = prevTrack;
     }
