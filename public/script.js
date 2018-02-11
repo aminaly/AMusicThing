@@ -8,12 +8,14 @@ function populatelist(jsonlist, access_token) {
   var jl = jsonlist;
   for (idx = 0; idx < jsonlist.items.length; idx++) {
     result = jsonlist.items[idx];
-    var myh1 = document.createElement("h1");
+    var myh1 = document.createElement("body");
     myh1.innerHTML = result.name + " - " + result.owner.display_name;
     ls.appendChild(myh1);
     var button = document.createElement("button");
+    button.id = "submit-playlist";
+    button.className = "btn";
     // button.name = result.href;
-    button.innerHTML = "submit";
+    button.innerHTML = "Partify!";
     button.addEventListener("click", function(playlisturl) {
       return function() {
         $.ajax({
@@ -79,7 +81,7 @@ function getTrackUris(sortedfeatures) {
 
 //make a playlist
 function makePlaylist(tracklist, access_token, playlist_name, uid) {
-  var newName = "Partify: " + playlist_name;
+  var newName = "🎊🎉Partify: " + playlist_name + "🎊🎉";
   var endPt = "https://api.spotify.com/v1/users/" + uid + "/playlists";
   var playlistData = JSON.stringify({
   "description": "Your partified playlist of " + playlist_name,
