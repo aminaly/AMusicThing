@@ -26,9 +26,7 @@ function populatelist(jsonlist, access_token) {
           var tracklist = gettracklists(data);
           var playlistName = data.name;
           var userId = document.getElementById("userid").innerText;
-          getrichfeatures(tracklist, access_token);
-          // TODO: add a "new playlist" tracklist function call
-          makePlaylist(tracklist, access_token, playlistName, userId);
+          getrichfeatures(tracklist, access_token, playlistName, userId);
         })
       }
     }(result.href));
@@ -47,7 +45,7 @@ function gettracklists(data) {
 }
 
 // get features
-function getrichfeatures(tracklist, access_token) {
+function getrichfeatures(tracklist, access_token, playlistName, userId) {
   $.ajax({
     url: "https://api.spotify.com/v1/audio-features?ids=" + tracklist.toString(),
     headers: {
@@ -55,8 +53,21 @@ function getrichfeatures(tracklist, access_token) {
     },
   }).done(function(data) {
     console.log(data.audio_features);
-    console.log(mergesort(data.audio_features));
+    var sortedtracks = mergesort(data.audio_features);
+    console.log(sortedtracks);
+    var trackuris = getTrackUris(sortedtracks);
+    console.log(trackuris);
+    makePlaylist(trackuris, access_token, playlistName, userId);
   });
+}
+
+// Separating track data from rich features JSON
+function getTrackUris(sortedfeatures) {
+  uris = [];
+  for (idx = 0; idx < sortedfeatures.length; idx++) {
+    uris.push(sortedfeatures[idx].uri);
+  }
+  return uris;
 }
 
 //make a playlist
@@ -82,9 +93,8 @@ function makePlaylist(tracklist, access_token, playlist_name, uid) {
     // now populate it with the right tracks
     $.ajax({
       type: "post",
-      data: tracklist,
       dataType: "json",
-      url: endPt + "/" + playlistId + "/tracks",
+      url: endPt + "/" + playlistId + "/tracks?uris=" + tracklist.toString(),
       headers: {
         'Authorization': 'Bearer ' + access_token
       },
