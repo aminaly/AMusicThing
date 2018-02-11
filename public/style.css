@@ -27,6 +27,10 @@ html, body, .container, .row {
   font-size: 25px;
 }
 
+#playlist {
+  display: none;
+}
+
 #spotify-btn,
 #submit-playlist {
   border-radius: 25px;

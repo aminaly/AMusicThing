@@ -38,6 +38,10 @@
           <input type="text" name="q" id="q">
           <button class="btn btn-default" id="search-tracks">submit</button>
         </div>
+        <div class="row" id="playlist">
+          <h1>Partify 🎉</h1>
+          <iframe id='iframe' src="https://open.spotify.com/embed?uri=spotify:user:spotify:playlist:3rgsDhGHZxZ9sB9DQWQfuf" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+        </div>
       </div>
     </div>
 
@@ -49,7 +53,7 @@
           <img class="media-object" width="60" src="{{images.0.url}}"/>
         </div>
           <dl class="media-body">
-            <dt>User Id</dt><dd><a href="{{external_urls.spotify}}">{{id}}</a></dd>
+            <dt>User Id</dt><dd><a href="{{external_urls.spotify}}" id="userid">{{id}}</a></dd>
           </dl>
         </div>
       </div>
@@ -117,12 +121,14 @@
 
                   $('#login').attr('style','display:none !important');
                   $('#loggedin').show();
+                  $('#playlist').attr('style','display:none !important');
                 }
             });
           } else {
               // render initial screen
               $('#login').show();
               $('#loggedin').hide();
+              $('#playlist').attr('style','display:none !important');
           }
 
             $.ajax({
