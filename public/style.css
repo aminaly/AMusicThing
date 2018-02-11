@@ -27,14 +27,17 @@ html, body, .container, .row {
   font-size: 25px;
 }
 
-#spotify-btn {
+#spotify-btn,
+#submit-playlist {
   border-radius: 25px;
   font-size: 20px;
   padding-left: 20px;
   padding-right: 20px;
   background-color: #1DB954;
   border-color: #1DB954;
+}
 
 #submit-playlist {
-  background-color: #1DB954;
+  border-radius: 25px;
+  font-size: 15px;
 }
