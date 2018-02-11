@@ -113,6 +113,11 @@ function makePlaylist(tracklist, access_token, playlist_name, uid) {
       },
     }).done(function(data) {
       console.log("Populated playlist" + data);
+      var frame = document.getElementById('iframe');
+      frame.src = "https://open.spotify.com/embed/user/" + uid + "/playlist/" + playlistId;
+
+      $('#playlist').show();
+      $('#loggedin').hide();
     });
   });
 
