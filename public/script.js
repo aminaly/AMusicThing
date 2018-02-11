@@ -5,7 +5,7 @@
 function populatelist(jsonlist, access_token) {
   var ls = document.getElementById("result-list");
   ls.innerHTML = "";
-  ls.className = "list-group";
+  ls.className = "arrange-vertically";
   var jl = jsonlist;
   for (idx = 0; idx < jsonlist.items.length; idx++) {
     var ils = document.createElement("div")
@@ -29,14 +29,20 @@ function populatelist(jsonlist, access_token) {
         }).done(function(data) {
           console.log(data);
           var tracklist = gettracklists(data);
-          var playlistName = data.name;
+          var playlistName = document.getElementById("newName").value;
+          console.log(playlistName);
+          if (playlistName == "") {
+            playlistName = data.name;
+          }
           var userId = document.getElementById("userid").innerText;
           getrichfeatures(tracklist, access_token, playlistName, userId);
         })
       }
     }(result.href));
     ils.appendChild(button);
-    ls.appendChild(ils)
+    ls.appendChild(document.createElement("br"));
+    ls.appendChild(ils);
+
   }
 }
 

@@ -56,14 +56,33 @@ html, body, .container, .row {
   margin-top: 25px;
 }
 
+.in-line-list {
+  float: right;
+  padding-right: 40px;
+}
+
 #result-list {
+  position: relative;
   overflow: auto;
-  height: 500px;
-  width: 700px;
+  height: 65vh;
+  width: 90vh;
   float: right;
   white-space: nowrap;
 }
 
-.in-line-list {
-  float: right;
+#loggedin {
+  position: relative;
+}
+
+#newName {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  background-color: #191414;
+  border-bottom: 50px;
+  border-color: #FFFFFF;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  width: 30vw;
 }
