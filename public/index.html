@@ -115,7 +115,7 @@
                 success: function(response) {
                   userProfilePlaceholder.innerHTML = userProfileTemplate(response);
 
-                  $('#login').hide();
+                  $('#login').attr('style','display:none !important');
                   $('#loggedin').show();
                 }
             });
