@@ -1,5 +1,6 @@
 html, body, .container, .row {
   background-color: #191414;
+  color: white;
   height:100%;
 }
 
