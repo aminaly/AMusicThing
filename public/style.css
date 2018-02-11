@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans');
+
 html, body, .container, .row {
   background-color: #191414;
   color: white;
   height:100%;
+  font-family: 'Noto Sans', sans-serif;
 }
 
 .container {
@@ -11,4 +14,25 @@ html, body, .container, .row {
   display: table-cell !important;
   text-align: center;
   vertical-align: middle;
+}
+
+.homepage {
+  padding-bottom: 10px;
+}
+
+#login h1 {
+  font-size: 75px;
+}
+
+#login p {
+  font-size: 25px;
+}
+
+#spotify-btn {
+  border-radius: 25px;
+  font-size: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: #1DB954;
+  border-color: #1DB954;
 }
