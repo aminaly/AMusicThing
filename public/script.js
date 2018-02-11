@@ -8,7 +8,7 @@ function populatelist(jsonlist, access_token) {
   var jl = jsonlist;
   for (idx = 0; idx < jsonlist.items.length; idx++) {
     result = jsonlist.items[idx];
-    var myh1 = document.createElement("h1");
+    var myh1 = document.createElement("h4");
     myh1.innerHTML = result.name + " - " + result.owner.display_name;
     ls.appendChild(myh1);
     var button = document.createElement("button");
